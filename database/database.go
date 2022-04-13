@@ -5,7 +5,7 @@ import (
 	"log"
 	"os"
 
-	"github.com/ridakaddir/go-fiber-api/models"
+	"github.com/ridakaddir/go-fiber-api/employee/domain/models"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 	"gorm.io/gorm/logger"
@@ -38,7 +38,7 @@ func ConnectDB() {
 	
 	
 
-	dsn := fmt.Sprintf("host=%s user=%s password=%s dbname=api_db port=%s sslmode=disable TimeZone=Asia/Shanghai", DBHost, DBUser, DBPass, DBPort)
+	dsn := fmt.Sprintf("host=%s user=%s password=%s dbname=api_db port=%s sslmode=disable TimeZone=Africa/Casablanca", DBHost, DBUser, DBPass, DBPort)
 	
 
 	db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})

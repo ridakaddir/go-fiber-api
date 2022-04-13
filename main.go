@@ -6,7 +6,9 @@ import (
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/ridakaddir/go-fiber-api/database"
-	"github.com/ridakaddir/go-fiber-api/routes"
+	"github.com/ridakaddir/go-fiber-api/employee/adapters/db"
+	"github.com/ridakaddir/go-fiber-api/employee/adapters/rest/routes"
+	"github.com/ridakaddir/go-fiber-api/employee/domain/ports"
 )
 
 func welcome(c *fiber.Ctx) error  {
@@ -22,12 +24,19 @@ func create(c *fiber.Ctx) error  {
 func main()  {
 
 	database.ConnectDB()
-
+	
 	app:=fiber.New()
+	
+	employeeRepository := db.NewEmployeePG()
+	employeeService := ports.NewEmployeeService(employeeRepository)
+	employeeController := routes.EmployeeController(employeeService)
+
+
 	
 	app.Get("/api", welcome)
 
-	app.Post("/api/employees", routes.CreateEmployee)
+	app.Post("/api/employees", employeeController.CreateEmployee)
+	app.Get("/api/employees", employeeController.GetEmployees)
 
 	port:= os.Getenv("PORT")
 	if port == "" {
