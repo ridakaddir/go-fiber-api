@@ -24,7 +24,9 @@ func (hdl *HttpHandler) CreateEmployee(c *fiber.Ctx) error {
 		return c.Status(400).JSON(err.Error())
 	}
 
-	hdl.employeeService.Create(employee.FirstName, employee.LastName, employee.Email)
+	if err := hdl.employeeService.Create(employee.FirstName, employee.LastName, employee.Email); err != nil {
+		return c.Status(400).JSON(err.Error())
+	}
 
 	return c.Status(201).JSON(employee)
 }
